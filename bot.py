@@ -4,16 +4,13 @@ from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filte
 
 print("Bot started and listening...")
 
-# ===== Environment Variables =====
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 SOURCE_CHANNEL = "@matchpredictioncricket"
 DEST_CHANNEL = "@SessionKingTejasvi"
 
-# ===== Safety check =====
 if not BOT_TOKEN:
-    raise ValueError("BOT_TOKEN set nahi hai")
+    raise ValueError("BOT_TOKEN missing")
 
-# ===== Forward logic =====
 async def forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.channel_post:
         username = update.channel_post.chat.username
@@ -24,7 +21,6 @@ async def forward(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 message_id=update.channel_post.message_id
             )
 
-# ===== Start bot =====
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 app.add_handler(MessageHandler(filters.ALL, forward))
 app.run_polling()
